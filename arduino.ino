@@ -40,38 +40,6 @@ void setup() {
 }
 
 void loop() {
-    HTTPClient http;
-    http.begin("http://jsonplaceholder.typicode.com/posts");
-    //int httpcode = http.GET();
-    http.addHeader("Content-Type", "text/plain");             //especifique os tipos do header
-  
-    int httpResponseCode = http.POST("POSTING from ESP32");   //Envia o comando de post atual
-  
-    if(httpResponseCode>0){
-  
-    String response = http.getString();                       //Get the response to the request
-  
-    Serial.println(httpResponseCode);   //Printa o retorno do codigo
-    Serial.println(response);           //Printa a reposta
-  
-    }else{
-  
-    Serial.print("Error on sending POST: ");
-    Serial.println(httpResponseCode);
-  
-    }
-
-    //Codigo do get()
-    /*if(httpcode > 0){
-      String payload = http.getString(); // String payload = {
-                                         //                     "value": + potencia
-                                         //                   }
-      Serial.println(httpcode);
-      Serial.println(payload);
-    }
-    else{
-      Serial.println("Error on NTTP request");
-    }*/
 
     //Finaliza os processos http
     http.end();
@@ -90,6 +58,28 @@ void loop() {
       Serial.println(potencia);
       Serial.println("Corrente = ");
       Serial.println(corrente);
+    
+      HTTPClient http;
+      http.begin("http://192.168.0.109:8080/esp");
+      http.addHeader("Content-Type", "text/plain");             //especifique os tipos do header
+  
+      String content = "value" + potencia
+    
+      int httpResponseCode = http.POST(content);   //Envia o comando de post atual
+  
+      if(httpResponseCode>0){
+  
+        String response = http.getString();   
+  
+        Serial.println(httpResponseCode);   //Printa o retorno do codigo
+        Serial.println(response);           //Printa a reposta
+  
+      }else{
+
+        Serial.print("Error on sending POST: ");
+        Serial.println(httpResponseCode);
+  
+        }
 
       delay(10000);
 }
