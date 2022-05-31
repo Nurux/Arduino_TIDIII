@@ -61,9 +61,9 @@ void loop() {
     
       HTTPClient http;
       http.begin("http://192.168.0.109:8080/esp");
-      http.addHeader("Content-Type", "text/plain");             //especifique os tipos do header
+      http.addHeader("application/json", "text/plain");             //especifique os tipos do header
   
-      String content = "value" + potencia
+      String content = " " + potencia
     
       int httpResponseCode = http.POST(content);   //Envia o comando de post atual
   
