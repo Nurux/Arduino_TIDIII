@@ -1,3 +1,4 @@
+#include <ArduinoJson.h>
 #include <HTTPClient.h>
 #include "EmonLib.h"
 #include <WiFiManager.h> //https://github.com/tzapu/WiFiManager
@@ -61,9 +62,13 @@ void loop() {
     
       HTTPClient http;
       http.begin("http://192.168.0.109:8080/esp");
-      http.addHeader("application/json", "text/plain");             //especifique os tipos do header
+      http.addHeader("Content-Type", "application/json");             //especifique os tipos do header
   
-      String content = " " + potencia
+      StaticJsonDocument<1> doc;
+      doc["value"] = potencia;
+
+      String content = String(serializeJson(doc, Serial));
+      int httpResponseCode = http.POST(content);
     
       int httpResponseCode = http.POST(content);   //Envia o comando de post atual
   
